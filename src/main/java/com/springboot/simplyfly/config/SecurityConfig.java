@@ -39,7 +39,8 @@ public class SecurityConfig {
         // Step 1: Configure security rules for incoming HTTP requests.
         http
                 // Disable CSRF because this application uses JWT authentication.
-                .csrf(AbstractHttpConfigurer::disable)
+                // The token is sent in the Authorization header (no cookies), so a CSRF attack is not possible.
+                .csrf(AbstractHttpConfigurer::disable) // NOSONAR
                 .authorizeHttpRequests(authorize -> authorize
 
                         // Allow browser preflight requests.
