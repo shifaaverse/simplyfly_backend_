@@ -1,4 +1,3 @@
-
 package com.springboot.simplyfly.service;
 
 import com.springboot.simplyfly.dto.request.RefundRequestDto;
@@ -23,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -221,7 +221,7 @@ class RefundServiceTest {
     void requestRefundTest_Between24And48Hours() {
 
         // Departs in 30 hours -> 50% refund
-        LocalDateTime departure = LocalDateTime.now().plusHours(30);
+        LocalDateTime departure = LocalDateTime.now(ZoneId.of("Asia/Kolkata")).plusHours(30);
 
         journey.getFlightInstance().setTravelDate(departure.toLocalDate());
         journey.getFlightInstance().getFlight().setDepartureTime(departure.toLocalTime());
@@ -239,7 +239,7 @@ class RefundServiceTest {
     void requestRefundTest_LessThan24Hours() {
 
         // Departs in 5 hours -> No refund
-        LocalDateTime departure = LocalDateTime.now().plusHours(5);
+        LocalDateTime departure = LocalDateTime.now(ZoneId.of("Asia/Kolkata")).plusHours(5);
 
         journey.getFlightInstance().setTravelDate(departure.toLocalDate());
         journey.getFlightInstance().getFlight().setDepartureTime(departure.toLocalTime());

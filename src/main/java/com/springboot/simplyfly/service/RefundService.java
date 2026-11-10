@@ -21,13 +21,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class RefundService {
+
+    // Flights are in India, so the hours before departure are counted in Indian time.
+    private static final ZoneId INDIA_ZONE = ZoneId.of("Asia/Kolkata");
 
     // Refunds that are still being processed.
     private static final List<RefundStatus> ACTIVE_STATUSES =
@@ -87,8 +91,8 @@ public class RefundService {
 
     // Calculate the hours remaining until departure.
     public static long getHoursBeforeDeparture(FlightInstance instance) {
-        LocalDateTime departure = LocalDateTime.of(instance.getTravelDate(), instance.getFlight().getDepartureTime());
-        return Duration.between(LocalDateTime.now(), departure).toHours();
+        ZonedDateTime departure = ZonedDateTime.of(instance.getTravelDate(), instance.getFlight().getDepartureTime(), INDIA_ZONE);
+        return Duration.between(ZonedDateTime.now(INDIA_ZONE), departure).toHours();
     }
 
     // Get refund requests submitted by a passenger.
