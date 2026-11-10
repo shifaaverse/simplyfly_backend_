@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling // used to release seats held for unpaid bookings
+// SonarQube automatic analysis test
 public class SimplyflyBackendApplication {
 
 	public static void main(String[] args) {
